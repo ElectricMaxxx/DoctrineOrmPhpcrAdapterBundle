@@ -1,0 +1,21 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="doctrine_orm_phpcr_adapter.event.phpcr.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\PhpcrListener</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.event.orm.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\OrmListener</parameter>
+    </parameters>
+
+    <services>
+
+        <service id="doctrine_orm_phpcr_adapter.event.phpcr" class="doctrine_orm_phpcr_adapter.event.phpcr.class">
+            <tag name="doctrine_phpcr.event_subscriber" />
+        </service>
+        <service id="doctrine_orm_phpcr_adapter.event.orm" class="doctrine_orm_phpcr_adapter.event.orm.class">
+            <tag name="doctrine.event_subscriber" />
+        </service>
+
+    </services>
+
+</container>
