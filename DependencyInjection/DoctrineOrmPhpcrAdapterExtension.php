@@ -12,7 +12,7 @@ use Symfony\Component\Config\FileLocator;
  *
  * @author Maximilian Berghoff <Maximilian.Berghoff@onit-gmbh.de>
  */
-class OrmPhpcrAdapterExtension extends Extension
+class DoctrineOrmPhpcrAdapterExtension extends Extension
 {
 
     /**

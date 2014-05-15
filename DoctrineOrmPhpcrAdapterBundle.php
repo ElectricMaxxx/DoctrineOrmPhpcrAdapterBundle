@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  *
  * @author Maximilian Berghoff <Maximilian.Berghoff@onit-gmbh.de>
  */
-class OrmPhpcrAdapterBundle extends Bundle
+class DoctrineOrmPhpcrAdapterBundle extends Bundle
 {
 
 }

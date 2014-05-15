@@ -5,17 +5,20 @@
     <parameters>
         <parameter key="doctrine_orm_phpcr_adapter.event.phpcr.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\PhpcrListener</parameter>
         <parameter key="doctrine_orm_phpcr_adapter.event.orm.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\OrmListener</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.default_adapter_manager.class">Doctrine\ORM\ODMAdapter\ObjectAdapterManager</parameter>
     </parameters>
 
     <services>
-
-        <service id="doctrine_orm_phpcr_adapter.event.phpcr" class="doctrine_orm_phpcr_adapter.event.phpcr.class">
+        <service id="doctrine_orm_phpcr_adapter.default_adapter_manager" class="%doctrine_orm_phpcr_adapter.default_adapter_manager.class%">
+            <argument id="service_container" type="service" />
+        </service>
+        <service id="doctrine_orm_phpcr_adapter.event.phpcr" class="%doctrine_orm_phpcr_adapter.event.phpcr.class%">
+            <argument id="service_container" type="service" />
             <tag name="doctrine_phpcr.event_subscriber" />
         </service>
-        <service id="doctrine_orm_phpcr_adapter.event.orm" class="doctrine_orm_phpcr_adapter.event.orm.class">
+        <service id="doctrine_orm_phpcr_adapter.event.orm" class="%doctrine_orm_phpcr_adapter.event.orm.class%">
+            <argument id="service_container" type="service" />
             <tag name="doctrine.event_subscriber" />
         </service>
-
     </services>
-
 </container>
