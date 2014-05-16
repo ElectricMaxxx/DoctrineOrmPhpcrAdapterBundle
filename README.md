@@ -4,7 +4,7 @@ DoctrineOrmPhpcrAdapterBundle for the Symfony Framework.
 
 This bundle integrates the Doctrine ORM-ODM-Adapter into Symfony2.
 
-[![Build Status](https://secure.travis-ci.org/doctrine/DoctrinePHPCRBundle.png)](http://travis-ci.org/doctrine/DoctrinePHPCRBundle)
+[![Build Status](https://secure.travis-ci.org/ElectricMaxxx/DoctrineOrmPhpcrAdapterBundle.png)](http://travis-ci.org/ElectricMaxxx/DoctrineOrmPhpcrAdapterBundle)
 
 ## What is Doctrine ORM-ODM-Adapter?
 
