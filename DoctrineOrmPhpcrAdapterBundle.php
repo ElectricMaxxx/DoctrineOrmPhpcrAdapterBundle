@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

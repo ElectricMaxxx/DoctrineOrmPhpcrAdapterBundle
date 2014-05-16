@@ -1,11 +1,11 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Tests\Functional\Doctrine\Orm;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Functional\Doctrine\Orm;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Tests\Resources\Entity\Object;
-use Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Tests\Resources\Document\ReferencedDocument;
+use Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Entity\Object;
+use Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Document\ReferencedDocument;
 use PHPCR\NodeInterface;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 

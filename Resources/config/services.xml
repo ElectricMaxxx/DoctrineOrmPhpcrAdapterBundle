@@ -3,15 +3,38 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="doctrine_orm_phpcr_adapter.event.phpcr.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\PhpcrListener</parameter>
-        <parameter key="doctrine_orm_phpcr_adapter.event.orm.class">Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event\OrmListener</parameter>
-        <parameter key="doctrine_orm_phpcr_adapter.default_adapter_manager.class">Doctrine\ORM\ODMAdapter\ObjectAdapterManager</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.event.phpcr.class">Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\PhpcrListener</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.event.orm.class">Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\OrmListener</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.driver_chain.class">Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.annotation.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\AnnotationDriver</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.xml.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\XmlDriver</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.yml.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\YamlDriver</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.php.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\PHPDriver</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.cache.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.cache.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.adapter_manager.class">Doctrine\ORM\ODMAdapter\ObjectAdapterManager</parameter>
+        <parameter key="doctrine_orm_phpcr_adapter.manager_configurator.class">Doctrine\ORM\ODMAdapter\Configuration</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.configuration.class">Doctrine\ORM\ODMAdapter\Configuration</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.adapter.event_manager.class">Symfony\Bridge\Doctrine\ContainerAwareEventManager</parameter>
     </parameters>
 
     <services>
-        <service id="doctrine_orm_phpcr_adapter.default_adapter_manager" class="%doctrine_orm_phpcr_adapter.default_adapter_manager.class%">
-            <argument id="service_container" type="service" />
+        <service id="doctrine_orm_phpcr_adapter.adapter_manager.abstract"
+                 class="%doctrine_orm_phpcr_adapter.adapter_manager.class%"
+                 factory-class="%doctrine_orm_phpcr_adapter.adapter_manager.class%"
+                 factory-method="create" abstract="true" />
+
+        <service id="doctrine_orm_phpcr_adapter.manager_configurator.abstract"
+                 class="%doctrine_orm_phpcr_adapter.manager_configurator.class%" abstract="true">
+            <argument type="collection" />
+            <argument type="collection" />
         </service>
+
         <service id="doctrine_orm_phpcr_adapter.event.phpcr" class="%doctrine_orm_phpcr_adapter.event.phpcr.class%">
             <argument id="service_container" type="service" />
             <tag name="doctrine_phpcr.event_subscriber" />
@@ -19,6 +42,13 @@
         <service id="doctrine_orm_phpcr_adapter.event.orm" class="%doctrine_orm_phpcr_adapter.event.orm.class%">
             <argument id="service_container" type="service" />
             <tag name="doctrine.event_subscriber" />
+        </service>
+        <service id="doctrine_orm_phpcr_adapter.configuration" class="%doctrine_orm_phpcr_adapter.configuration.class%" abstract="true" public="false" />
+
+        <service id="doctrine_orm_phpcr_adapter.adapter.metadata.annotation_reader" alias="annotation_reader" public="false" />
+
+        <service id="doctrine_orm_phpcr_adapter.adapter.event_manager" class="%doctrine_orm_phpcr_adapter.adapter.event_manager.class%">
+            <argument type="service" id="service_container"/>
         </service>
     </services>
 </container>

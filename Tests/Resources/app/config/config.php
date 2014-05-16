@@ -10,7 +10,7 @@ $container->loadFromExtension('doctrine', array(
         'mappings' => array(
             'tests_fixtures' => array(
                 'type' => 'annotation',
-                'prefix' => 'Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Tests\Resources\Entity',
+                'prefix' => 'Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Entity',
                 'dir' => $container->getParameter('kernel.root_dir').'/../Entity',
                 'is_bundle' => false,
             ),

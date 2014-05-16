@@ -10,7 +10,7 @@ class AppKernel extends TestKernel
         $this->requireBundleSets(array('phpcr_odm', 'doctrine_orm', 'default'));
 
         $this->addBundles(array(
-            new \Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\DoctrineOrmPhpcrAdapterBundle(),
+            new \Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\DoctrineOrmPhpcrAdapterBundle(),
         ));
     }
 

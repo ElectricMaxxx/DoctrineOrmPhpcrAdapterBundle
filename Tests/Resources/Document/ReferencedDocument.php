@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Tests\Resources\Document;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Document;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
 

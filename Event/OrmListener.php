@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
@@ -47,7 +47,7 @@ class OrmListener implements EventSubscriber
     {
         // i wanted to avoid that but injecting the adapter directly causes Circular references
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        $this->oam->bindReference($eventArgs->getObject());
+        $this->oam->persistReference($eventArgs->getObject());
     }
 
     /**

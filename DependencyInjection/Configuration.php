@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\DependencyInjection;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -17,8 +17,129 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
 
-        $treeBuilder->root('doctrine_orm_phpcr_adapter');
+        $treeBuilder->root('doctrine_orm_phpcr_adapter')
+            ->children()
+                ->arrayNode('managers')
+                    ->children()
+                        ->scalarNode('reference_phpcr')->defaultNull()->end()
+                        ->scalarNode('reference_dbal_orm')->defaultNull()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('adapter')
+                    ->beforeNormalization()
+                    ->ifTrue(function ($v) {
+                        return null === $v
+                            || (is_array($v)
+                            && !array_key_exists('adapter_managers', $v)
+                            && !array_key_exists('adapter_manager', $v));
+                    })
+                    ->then(function ($v) {
+                        $v = (array) $v;
+                        // Key that should not be rewritten to the connection config
+                        $excludedKeys = array(
+                            'default_adapter_manager' => true,
+                            'auto_generate_proxy_classes' => true,
+                            'proxy_dir' => true,
+                            'proxy_namespace' => true,
+                        );
+                        $adapterManagers = array();
+                        foreach ($v as $key => $value) {
+                            if (isset($excludedKeys[$key])) {
+                                continue;
+                            }
+                            $adapterManagers[$key] = $v[$key];
+                            unset($v[$key]);
+                        }
+                        $v['default_adapter_manager'] = isset($v['default_adapter_manager'])
+                                                        ? (string) $v['default_adapter_manager']
+                                                        : 'default';
+                        $v['adapter_managers'] = array($v['default_adapter_manager'] => $adapterManagers);
+
+                        return $v;
+                    })
+                    ->end()
+                    ->children()
+                        ->scalarNode('default_adapter_manager')->end()
+                        ->booleanNode('auto_generate_proxy_classes')->defaultFalse()->end()
+                        ->scalarNode('proxy_dir')->defaultValue('%kernel.cache_dir%/doctrine/PHPCRProxies')->end()
+                        ->scalarNode('proxy_namespace')->defaultValue('PHPCRProxies')->end()
+                    ->end()
+                    ->fixXmlConfig('adapter_manager')
+                    ->append($this->getAdapterManagersNode())
+                ->end()
+            ->end()
+            ;
 
         return $treeBuilder;
+    }
+
+    private function getAdapterManagersNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('adapter_managers');
+
+        $node
+            ->requiresAtLeastOneElement()
+            ->useAttributeAsKey('name')
+            ->prototype('array')
+                ->addDefaultsIfNotSet()
+                ->append($this->getApapterCacheDriverNode('metadata_cache_driver'))
+                ->children()
+                    ->scalarNode('configuration_id')->end()
+                    ->scalarNode('class_metadata_factory_name')->defaultValue('Doctrine\ORM\ODMAdapter\Mapping\ClassMetadataFactory')->end()
+                    ->scalarNode('auto_mapping')->defaultFalse()->end()
+                ->end()
+                ->fixXmlConfig('mapping')
+                ->children()
+                    ->arrayNode('mappings')
+                        ->useAttributeAsKey('name')
+                        ->prototype('array')
+                            ->beforeNormalization()
+                                ->ifString()
+                                ->then(function($v) { return array('type' => $v); })
+                            ->end()
+                            ->treatNullLike(array())
+                            ->treatFalseLike(array('mapping' => false))
+                            ->performNoDeepMerging()
+                            ->children()
+                                ->scalarNode('mapping')->defaultValue(true)->end()
+                                ->scalarNode('type')->end()
+                                ->scalarNode('dir')->end()
+                                ->scalarNode('alias')->end()
+                                ->scalarNode('prefix')->end()
+                                ->booleanNode('is_bundle')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $node;
+    }
+
+    private function getApapterCacheDriverNode($name)
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root($name);
+
+        $node
+            ->addDefaultsIfNotSet()
+                ->beforeNormalization()
+                ->ifString()
+                ->then(function ($v) {
+                        return array('type' => $v);
+                })
+            ->end()
+            ->children()
+            ->scalarNode('type')->defaultValue('array')->end()
+                ->scalarNode('host')->end()
+                ->scalarNode('port')->end()
+                ->scalarNode('instance_class')->end()
+                ->scalarNode('class')->end()
+                ->scalarNode('id')->end()
+            ->end();
+
+        return $node;
     }
 }

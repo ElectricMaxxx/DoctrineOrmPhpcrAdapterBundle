@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\ORM\Bundle\OrmPhpcrAdapterBundle\Event;
+namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
