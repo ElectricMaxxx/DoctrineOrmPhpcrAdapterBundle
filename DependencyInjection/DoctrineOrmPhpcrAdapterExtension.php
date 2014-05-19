@@ -4,6 +4,7 @@ namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\DependencyInjection;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\DependencyInjection\AbstractDoctrineExtension;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -45,8 +46,8 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if (!empty($config['managers'])) {
-            $this->loadReferencedManagers($config['managers'], $container);
+        if (!empty($config['registries'])) {
+            $this->loadReferencedManagers($config['registries'], $container);
         }
 
         if (!empty($config['adapter'])) {
@@ -55,8 +56,9 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
     }
 
     /**
-     * @param array            $config
+     * @param array $config
      * @param ContainerBuilder $container
+     * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function loadReferencedManagers(array $config, ContainerBuilder $container)
     {
@@ -153,7 +155,7 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
             'setProxyNamespace'           => array('%doctrine_orm_phpcr_adapter.adapter.proxy_namespace%'),
             'setAutoGenerateProxyClasses' => array('%doctrine_orm_phpcr_adapter.adapter.auto_generate_proxy_classes%'),
             'setClassMetadataFactoryName' => array($adapterManager['class_metadata_factory_name']),
-            'setDefaultManagerServices'   => array($this->referenceManagers),
+            'setRegistries'   => array($this->referenceManagers),
         );
 
         foreach ($methods as $method => $args) {

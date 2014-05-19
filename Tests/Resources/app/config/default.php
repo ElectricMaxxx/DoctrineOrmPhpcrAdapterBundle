@@ -22,9 +22,9 @@ $loader->import(CMF_TEST_CONFIG_DIR.'/dist/doctrine.yml');
 $loader->import(CMF_TEST_CONFIG_DIR.'/dist/security.yml');
 
 $config = array(
-    'managers' => array(
-        'reference-phpcr'    => 'doctrine_phpcr.odm.default_document_manager',
-        'reference-dbal-orm' => 'doctrine.orm.default_entity_manager',
+    'registries' => array(
+        'reference-phpcr'    => 'doctrine_phpcr',
+        'reference-dbal-orm' => 'doctrine',
     ),
     'adapter'  => array(
         'auto_mapping' => true,
