@@ -19,7 +19,7 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->root('doctrine_orm_phpcr_adapter')
             ->children()
-                ->arrayNode('managers')
+                ->arrayNode('registries')
                     ->children()
                         ->scalarNode('reference_phpcr')->defaultNull()->end()
                         ->scalarNode('reference_dbal_orm')->defaultNull()->end()
