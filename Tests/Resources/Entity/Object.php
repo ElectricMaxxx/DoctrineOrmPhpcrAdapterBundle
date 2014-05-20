@@ -19,7 +19,7 @@ class Object
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string")
@@ -34,7 +34,7 @@ class Object
      *  targetObject="Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Document\ReferencedDocument",
      *  name="document",
      *  commonField={
-     *      @ODMAdapter\CommonField(referencedBy="commonField", inversedBy="commonField")
+     *      @ODMAdapter\CommonField(referencedBy="commonField", inversedBy="commonField", type="from-document")
      *  }
      * )
      */
@@ -44,4 +44,68 @@ class Object
      * @ORM\Column(type="string")
      */
     public $commonField;
+
+    /**
+     * @param mixed $commonField
+     */
+    public function setCommonField($commonField)
+    {
+        $this->commonField = $commonField;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommonField()
+    {
+        return $this->commonField;
+    }
+
+    /**
+     * @param object $document
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+    }
+
+    /**
+     * @return object
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
 }
