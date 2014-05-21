@@ -34,7 +34,7 @@ class OrmListener implements EventSubscriber
     {
         return array(
             'prePersist',
-            'postUpdate',
+            'preUpdate',
             'postLoad',
             'preRemove',
             'preFlush',
@@ -52,6 +52,7 @@ class OrmListener implements EventSubscriber
     {
         // i wanted to avoid that but injecting the adapter directly causes Circular references
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("HOOK-Persist-ORM\n");
         $this->oam->persistReference($eventArgs->getObject());
     }
 
@@ -61,10 +62,10 @@ class OrmListener implements EventSubscriber
      *
      * @param LifecycleEventArgs $eventArgs
      */
-    public function postUpdate(LifecycleEventArgs $eventArgs)
+    public function preUpdate(LifecycleEventArgs $eventArgs)
     {
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("\n HOOK-Update\n");
+        print("HOOK-Update-ORM\n");
         $this->oam->persistReference($eventArgs->getObject());
     }
 
@@ -76,6 +77,7 @@ class OrmListener implements EventSubscriber
     public function postLoad(LifecycleEventArgs $eventArgs)
     {
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("HOOK-Load-ORM\n");
         $this->oam->findReference($eventArgs->getObject());
     }
 
@@ -93,12 +95,14 @@ class OrmListener implements EventSubscriber
     public function preFlush(PreFlushEventArgs $eventArgs)
     {
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("HOOK-Flush-ORM\n");
         $this->oam->flushReference();
     }
 
     public function onClear(OnClearEventArgs $eventArgs)
     {
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("HOOK-Clear-ORM\n");
         $this->oam->clear();
     }
 }

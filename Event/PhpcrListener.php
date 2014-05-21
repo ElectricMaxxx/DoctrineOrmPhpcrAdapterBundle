@@ -4,6 +4,9 @@ namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Common\Persistence\Event\ManagerEventArgs;
+use Doctrine\Common\Persistence\Event\OnClearEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\ODMAdapter\ObjectAdapterManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -33,7 +36,9 @@ class PhpcrListener implements EventSubscriber
             'prePersist',
             'preUpdate',
             'postLoad',
-            'preRemove'
+            'preRemove',
+            'preFlush',
+            'onClear',
         );
     }
 
@@ -47,6 +52,7 @@ class PhpcrListener implements EventSubscriber
     {
         // i wanted to avoid that but injecting the adapter directly causes Circular references
         $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Persist-PHPCR \n");
     }
 
     /**
@@ -57,7 +63,8 @@ class PhpcrListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $eventArgs)
     {
-
+        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Update-PHPCR \n");
     }
 
     /**
@@ -67,7 +74,8 @@ class PhpcrListener implements EventSubscriber
      */
     public function postLoad(LifecycleEventArgs $eventArgs)
     {
-
+        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Load-PHPCR \n");
     }
 
     /**
@@ -77,6 +85,19 @@ class PhpcrListener implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
+        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Remove-PHPCR \n");
+    }
 
+    public function preFlush(ManagerEventArgs $eventArgs)
+    {
+        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Flush-PHPCR \n");
+    }
+
+    public function onClear(OnClearEventArgs $eventArgs)
+    {
+        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        print("Hook-Clear-PHPCR \n");
     }
 }
