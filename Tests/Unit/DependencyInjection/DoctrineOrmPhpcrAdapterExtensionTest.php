@@ -38,10 +38,8 @@ class DoctrineOrmPhpcrAdapterExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.environment', 'test');
         $this->load(array(
             'managers' => array(
-                'reference-managers' => array(
-                    'reference-phpcr'    => array('default' => 'doctrine_phpcr.odm.default_document_manager'),
-                    'reference-dbal-orm' => array('default' => 'doctrine.orm.default_entity_manager',
-                    ),
+                'reference-phpcr'    => array('default' => 'doctrine_phpcr.odm.default_document_manager'),
+                'reference-dbal-orm' => array('default' => 'doctrine.orm.default_entity_manager',
                 ),
             ),
             'adapter'  => array(

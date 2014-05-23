@@ -50,10 +50,12 @@ class OrmListener implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
-        // i wanted to avoid that but injecting the adapter directly causes Circular references
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("HOOK-Persist-ORM\n");
-        $this->oam->persistReference($eventArgs->getObject());
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $object = $eventArgs->getObject();
+        if ($this->isManagedByBridge($object, $oam)) {
+            $oam->persistReference($eventArgs->getObject());
+            print("PERSIST");
+        }
     }
 
     /**
@@ -64,9 +66,11 @@ class OrmListener implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $eventArgs)
     {
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("HOOK-Update-ORM\n");
-        $this->oam->persistReference($eventArgs->getObject());
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $object = $eventArgs->getObject();
+        if ($this->isManagedByBridge($object, $oam)) {
+            $oam->persistReference($eventArgs->getObject());
+        }
     }
 
     /**
@@ -76,9 +80,11 @@ class OrmListener implements EventSubscriber
      */
     public function postLoad(LifecycleEventArgs $eventArgs)
     {
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("HOOK-Load-ORM\n");
-        $this->oam->findReference($eventArgs->getObject());
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $object = $eventArgs->getObject();
+        if ($this->isManagedByBridge($object, $oam)) {
+            $oam->findReference($eventArgs->getObject());
+        }
     }
 
     /**
@@ -88,21 +94,45 @@ class OrmListener implements EventSubscriber
      */
     public function preRemove(LifecycleEventArgs $eventArgs)
     {
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        $this->oam->removeReference($eventArgs->getObject());
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $object = $eventArgs->getObject();
+        if ($this->isManagedByBridge($object, $oam)) {
+            $oam->removeReference($eventArgs->getObject());
+        }
     }
 
+    /**
+     * Triggers the flush on ObjectAdapterManager.
+     *
+     * @param PreFlushEventArgs $eventArgs
+     */
     public function preFlush(PreFlushEventArgs $eventArgs)
     {
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("HOOK-Flush-ORM\n");
-        $this->oam->flushReference();
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $oam->flushReference();
     }
 
+    /**
+     * Triggers the clear on the ObjectAdapterManager.
+     *
+     * @param OnClearEventArgs $eventArgs
+     */
     public function onClear(OnClearEventArgs $eventArgs)
     {
-        $this->oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
-        print("HOOK-Clear-ORM\n");
-        $this->oam->clear();
+        $oam = $this->container->get('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $oam->flushReference();
+    }
+
+    /**
+     * Detects if an object is mapped or not.
+     *
+     * @param $object
+     * @param ObjectAdapterManager $objectAdapterManager
+     * @return bool
+     */
+    private function isManagedByBridge($object, ObjectAdapterManager $objectAdapterManager)
+    {
+        $classMetadata = $objectAdapterManager->getClassMetadata(get_class($object));
+        return null === $classMetadata ? false : true;
     }
 }

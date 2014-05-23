@@ -63,10 +63,8 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
     public function loadReferencedManagers(array $config, ContainerBuilder $container)
     {
         // the configuration setting will prevent us from using wrong type
-        foreach ($config as $referenceType => $managers) {
-            foreach ($managers as $name => $serviceId) {
-                $this->referenceManagers[$referenceType][$name] = new Reference($serviceId);
-            }
+        foreach ($config as $manager) {
+                $this->referenceManagers[$manager['type']][$manager['name']] = new Reference($manager['service']);
         }
     }
 
@@ -101,7 +99,7 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
         if (empty($config['default_adapter_manager'])) {
             return;
         }
-        print("\n Set the default Adapter manager\n");
+
         $container->setParameter(
             'doctrine_orm_phpcr_adapter.adapter.default_adapter_manager',
             $config['default_adapter_manager']
@@ -151,7 +149,7 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
             'setProxyNamespace'           => array('%doctrine_orm_phpcr_adapter.adapter.proxy_namespace%'),
             'setAutoGenerateProxyClasses' => array('%doctrine_orm_phpcr_adapter.adapter.auto_generate_proxy_classes%'),
             'setClassMetadataFactoryName' => array($adapterManager['class_metadata_factory_name']),
-            'setRegistries'   => array($this->referenceManagers),
+            'setManagers'   => array($this->referenceManagers),
         );
 
         foreach ($methods as $method => $args) {

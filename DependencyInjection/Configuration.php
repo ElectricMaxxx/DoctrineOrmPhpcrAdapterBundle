@@ -23,32 +23,45 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('managers')
                     ->beforeNormalization()
                     ->ifTrue(function ($v) {
-                        return null === $v
-                            || (is_array($v))
-                            ;
+                        return null === $v || (is_array($v));
                     })
                     ->then(function ($v) {
-                        $v = (array) $v;
                         $managers = array();
-                        $includedReferenceTypes = array(Reference::DBAL_ORM, Reference::PHPCR);
-                        foreach ($v as $referenceType => $managerList) {
-                            if (!isset($includedReferenceTypes[$referenceType])) {
+                        $mapReferenceType = array(
+                            'reference_phpcr' => Reference::PHPCR,
+                            'reference_dbal_orm' => Reference::DBAL_ORM,
+                        );
+                        $availableReferenceTypes = array(Reference::DBAL_ORM, Reference::PHPCR);
+                        foreach ($v as $typeInList => $managersInList) {
+                            $type = null;
+                            if (isset($mapReferenceType[$typeInList])) {
+                                $type = $mapReferenceType[$typeInList];
+                            } elseif (isset($availableReferenceTypes[$typeInList])) {
+                                $type = $availableReferenceTypes[$typeInList];
+                            }
+
+                            if (null === $type) {
                                 continue;
                             }
 
-                            foreach ($managerList as $mangerName => $managerServiceId) {
-                                $managers[$referenceType][$mangerName] = $managerServiceId;
+                            foreach ($managersInList as $name => $service) {
+                                $managers[] = array(
+                                    'name'    => $name,
+                                    'service' => $service,
+                                    'type'    => $type,
+                                );
                             }
-
                         }
 
-                        $v['reference_managers'] = $managers;
-
-                        return $v;
+                        return $managers;
                     })
                     ->end()
-                    ->children()
-                        ->arrayNode('reference_managers')->end()
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('type')->isRequired()->end()
+                            ->scalarNode('name')->isRequired()->end()
+                            ->scalarNode('service')->isRequired()->end()
+                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('adapter')

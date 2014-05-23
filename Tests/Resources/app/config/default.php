@@ -23,24 +23,21 @@ $loader->import(CMF_TEST_CONFIG_DIR.'/dist/security.yml');
 
 $config = array(
     'managers' => array(
-        'reference-managers' => array(
-            'reference-phpcr'    => array('default' => 'doctrine_phpcr.odm.default_document_manager'),
-            'reference-dbal-orm' => array('default' => 'doctrine.orm.default_entity_manager',
-        ),
+        'reference-phpcr'    => array('default' => 'doctrine_phpcr.odm.default_document_manager'),
+        'reference-dbal-orm' => array('default' => 'doctrine.orm.default_entity_manager'),
     ),
     'adapter'  => array(
         'auto_mapping' => true,
         'auto_generate_proxy_classes' => '%kernel.debug%',
         'mappings' => array(),
     ),
-));
+);
 $kernelRootDir = $container->getParameter('kernel.root_dir');
 $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
 $phpcrOdmDocDir = sprintf('%s/../Entity', $kernelRootDir);
 $phpcrOdmDocPrefix = sprintf('%s\Tests\Resources\Entity', $bundleFQN);
 
 if (file_exists($phpcrOdmDocDir)) {
-
     $config['adapter']['mappings']['test_additional'] = array(
         'type' => 'annotation',
         'prefix' => $phpcrOdmDocPrefix,

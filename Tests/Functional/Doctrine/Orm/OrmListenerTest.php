@@ -61,6 +61,7 @@ class OrmListenerTest extends BaseTestCase
         $referencedObject->name =  'referenced-object';
         $referencedObject->parentDocument = $this->base;
 
+        print("persist\n");
         $this->getEm()->persist($object);
         $this->getEm()->flush();
         $this->getEm()->clear();
@@ -103,9 +104,6 @@ class OrmListenerTest extends BaseTestCase
         $referencedObject = $object->getDocument();
         $this->assertNotNull($referencedObject);
         $referencedObject->setCommonField('an other value');
-
-        // todo need to find a way to trigger the change on the referenced doc as an change on entity
-        $object->setCommonField('new value');
 
         print("second persist: \n");
         $this->getEm()->persist($object);

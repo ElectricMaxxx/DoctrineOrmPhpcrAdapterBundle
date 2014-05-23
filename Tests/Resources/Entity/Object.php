@@ -34,7 +34,7 @@ class Object
      *  targetObject="Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Document\ReferencedDocument",
      *  name="document",
      *  commonField={
-     *      @ODMAdapter\CommonField(referencedBy="commonField", inversedBy="commonField")
+     *      @ODMAdapter\CommonField(referencedBy="commonField", inversedBy="commonField", syncType="from-reference")
      *  }
      * )
      */
