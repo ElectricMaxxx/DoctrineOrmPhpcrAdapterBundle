@@ -14,7 +14,7 @@
         </testsuite>
 
         <testsuite name="Doctrine OrmPhpcrAdpter ORM">
-            <directory>./Tests/Functional/Doctrine/Orm</directory>
+            <!-- <directory>./Tests/Functional/Doctrine/Orm</directory> -->
         </testsuite>
     </testsuites>
 

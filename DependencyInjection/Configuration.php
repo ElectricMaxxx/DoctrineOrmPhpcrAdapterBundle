@@ -2,6 +2,7 @@
 
 namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\DependencyInjection;
 
+use Doctrine\ORM\ODMAdapter\Reference;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -19,10 +20,35 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder->root('doctrine_orm_phpcr_adapter')
             ->children()
-                ->arrayNode('registries')
+                ->arrayNode('managers')
+                    ->beforeNormalization()
+                    ->ifTrue(function ($v) {
+                        return null === $v
+                            || (is_array($v))
+                            ;
+                    })
+                    ->then(function ($v) {
+                        $v = (array) $v;
+                        $managers = array();
+                        $includedReferenceTypes = array(Reference::DBAL_ORM, Reference::PHPCR);
+                        foreach ($v as $referenceType => $managerList) {
+                            if (!isset($includedReferenceTypes[$referenceType])) {
+                                continue;
+                            }
+
+                            foreach ($managerList as $mangerName => $managerServiceId) {
+                                $managers[$referenceType][$mangerName] = $managerServiceId;
+                            }
+
+                        }
+
+                        $v['reference_managers'] = $managers;
+
+                        return $v;
+                    })
+                    ->end()
                     ->children()
-                        ->scalarNode('reference_phpcr')->defaultNull()->end()
-                        ->scalarNode('reference_dbal_orm')->defaultNull()->end()
+                        ->arrayNode('reference_managers')->end()
                     ->end()
                 ->end()
                 ->arrayNode('adapter')

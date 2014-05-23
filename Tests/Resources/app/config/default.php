@@ -22,16 +22,18 @@ $loader->import(CMF_TEST_CONFIG_DIR.'/dist/doctrine.yml');
 $loader->import(CMF_TEST_CONFIG_DIR.'/dist/security.yml');
 
 $config = array(
-    'registries' => array(
-        'reference-phpcr'    => 'doctrine_phpcr',
-        'reference-dbal-orm' => 'doctrine',
+    'managers' => array(
+        'reference-managers' => array(
+            'reference-phpcr'    => array('default' => 'doctrine_phpcr.odm.default_document_manager'),
+            'reference-dbal-orm' => array('default' => 'doctrine.orm.default_entity_manager',
+        ),
     ),
     'adapter'  => array(
         'auto_mapping' => true,
         'auto_generate_proxy_classes' => '%kernel.debug%',
         'mappings' => array(),
     ),
-);
+));
 $kernelRootDir = $container->getParameter('kernel.root_dir');
 $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
 $phpcrOdmDocDir = sprintf('%s/../Entity', $kernelRootDir);

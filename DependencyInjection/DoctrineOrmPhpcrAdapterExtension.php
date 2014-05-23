@@ -46,8 +46,8 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if (!empty($config['registries'])) {
-            $this->loadReferencedManagers($config['registries'], $container);
+        if (!empty($config['managers'])) {
+            $this->loadReferencedManagers($config['managers'], $container);
         }
 
         if (!empty($config['adapter'])) {
@@ -62,14 +62,10 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
      */
     public function loadReferencedManagers(array $config, ContainerBuilder $container)
     {
-        foreach ($config as $configType => $serviceId) {
-            switch ($configType) {
-                case 'reference_phpcr':
-                    $this->referenceManagers[AdapterReference::PHPCR] = new Reference($serviceId);
-                    break;
-                case 'reference_dbal_orm':
-                    $this->referenceManagers[AdapterReference::DBAL_ORM] = new Reference($serviceId);
-                    break;
+        // the configuration setting will prevent us from using wrong type
+        foreach ($config as $referenceType => $managers) {
+            foreach ($managers as $name => $serviceId) {
+                $this->referenceManagers[$referenceType][$name] = new Reference($serviceId);
             }
         }
     }
@@ -105,7 +101,7 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
         if (empty($config['default_adapter_manager'])) {
             return;
         }
-
+        print("\n Set the default Adapter manager\n");
         $container->setParameter(
             'doctrine_orm_phpcr_adapter.adapter.default_adapter_manager',
             $config['default_adapter_manager']
