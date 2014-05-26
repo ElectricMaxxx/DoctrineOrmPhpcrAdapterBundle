@@ -33,7 +33,7 @@
     "autoload": {
         "psr-0": { "Doctrine\\ORM\\Bundle\\DoctrineOrmPhpcrAdapterBundle": "" }
     },
-    "target-dir": "Doctrine/ORM/Bundle/OrmPhpcrAdapterBundle",
+    "target-dir": "Doctrine/ORM/Bundle/DoctrineOrmPhpcrAdapterBundle",
     "bin": [],
     "extra": {
         "branch-alias": {
