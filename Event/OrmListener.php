@@ -54,7 +54,6 @@ class OrmListener implements EventSubscriber
         $object = $eventArgs->getObject();
         if ($this->isManagedByBridge($object, $oam)) {
             $oam->persistReference($eventArgs->getObject());
-            print("PERSIST");
         }
     }
 

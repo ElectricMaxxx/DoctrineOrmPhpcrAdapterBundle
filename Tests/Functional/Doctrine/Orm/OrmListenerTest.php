@@ -61,7 +61,6 @@ class OrmListenerTest extends BaseTestCase
         $referencedObject->name =  'referenced-object';
         $referencedObject->parentDocument = $this->base;
 
-        print("persist\n");
         $this->getEm()->persist($object);
         $this->getEm()->flush();
         $this->getEm()->clear();
@@ -85,11 +84,8 @@ class OrmListenerTest extends BaseTestCase
         $referencedObject->name =  'referenced-object';
         $referencedObject->parentDocument = $this->base;
 
-        print("first persist: \n");
         $this->getEm()->persist($object);
-        print("first flush: \n");
         $this->getEm()->flush();
-        print("first clear: \n");
         $this->getEm()->clear();
 
 
@@ -105,18 +101,15 @@ class OrmListenerTest extends BaseTestCase
         $this->assertNotNull($referencedObject);
         $referencedObject->setCommonField('an other value');
 
-        print("second persist: \n");
         $this->getEm()->persist($object);
-        print("second flush: \n");
         $this->getEm()->flush();
-        print("second clear: \n");
         $this->getEm()->clear();
 
 
         $referencedObject = $this->getDm()->find(null, '/test/referenced-object');
         $object = $this->getEm()->find(get_class($object), $object->id);
 
-        $this->assertEquals('new value', $object->getCommonField());
+        $this->assertEquals('an other value', $object->getCommonField());
         $this->assertEquals('an other value', $referencedObject->getCommonField());
     }
 }
