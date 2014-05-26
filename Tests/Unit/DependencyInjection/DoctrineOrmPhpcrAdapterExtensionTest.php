@@ -51,6 +51,7 @@ class DoctrineOrmPhpcrAdapterExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter('doctrine_orm_phpcr_adapter.adapter.default_adapter_manager');
         $this->assertContainerBuilderHasService('doctrine_orm_phpcr_adapter.default_adapter_manager');
+        $this->assertContainerBuilderHasService('doctrine_orm_phpcr_adapter.adapter.default_event_manager');
         $this->assertContainerBuilderHasService('doctrine_orm_phpcr_adapter.adapter.default_configuration');
     }
 }

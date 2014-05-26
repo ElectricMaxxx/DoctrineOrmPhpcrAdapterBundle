@@ -156,14 +156,30 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
             $configDef->addMethodCall($method, $args);
         }
 
+        // create the event manager definition by name
+        $abstractEventManagerServiceId = sprintf(
+            'doctrine_orm_phpcr_adapter.adapter.%s_event_manager',
+            $adapterManager['name']
+        );
+        $container
+            ->setDefinition(
+                $abstractEventManagerServiceId,
+                new DefinitionDecorator('doctrine_orm_phpcr_adapter.adapter.event_manager.abstract')
+            );
+
+        // create the bridge manager by name
+        $abstractManagerServiceId = sprintf(
+            'doctrine_orm_phpcr_adapter.adapter.%s_configuration',
+            $adapterManager['name']
+        );
         $container
             ->setDefinition(
                 $adapterManager['service_name'],
                 new DefinitionDecorator('doctrine_orm_phpcr_adapter.adapter_manager.abstract')
             )
             ->setArguments(array(
-                new Reference(sprintf('doctrine_orm_phpcr_adapter.adapter.%s_configuration', $adapterManager['name'])),
-                new Reference('doctrine_orm_phpcr_adapter.adapter.event_manager')
+                new Reference($abstractManagerServiceId),
+                new Reference($abstractEventManagerServiceId)
             ))
         ;
 
