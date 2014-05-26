@@ -49,7 +49,7 @@ class DoctrineOrmPhpAdapterMappingPass extends RegisterMappingsPass
      */
     public static function createXmlMappingDriver(array $mappings, array $managerParameters = array(), $enabledParameter = false)
     {
-        $arguments = array($mappings, '.adapter.xml');
+        $arguments = array($mappings, '.bridge.xml');
         $locator = new Definition('Doctrine\Common\Persistence\Mapping\Driver\SymfonyFileLocator', $arguments);
         $driver = new Definition('Doctrine\ORM\ODMAdapter\Mapping\Driver\XmlDriver', array($locator));
 
