@@ -32,8 +32,7 @@ class Object
      *  referencedBy="uuid",
      *  inversedBy="uuid",
      *  targetObject="Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Tests\Resources\Document\ReferencedDocument",
-     *  name="document",
-     *  commonField={
+     *  commonFields={
      *      @ODMAdapter\CommonField(referencedBy="commonField", inversedBy="commonField", syncType="from-reference")
      *  }
      * )

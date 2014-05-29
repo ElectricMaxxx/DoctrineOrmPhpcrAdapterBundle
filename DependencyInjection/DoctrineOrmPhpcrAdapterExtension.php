@@ -83,7 +83,7 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
 
             $adapterManager['name'] = $name;
             $adapterManager['service_name'] = $adapterManagers[$name]
-                                            = sprintf('doctrine_orm_phpcr_adapter.%s_adapter_manager', $name);
+                                            = sprintf('doctrine_orm_phpcr_adapter.adapter.%s_adapter_manager', $name);
             if ($adapterManager['auto_mapping'] && count($config['adapter_managers']) > 1) {
                 throw new LogicException(
                     'You cannot enable "auto_mapping" when several adapter managers are defined.'
@@ -181,8 +181,8 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
                 new Reference($abstractManagerServiceId),
                 new Reference($abstractEventManagerServiceId)
             ))
+            ->addMethodCall('addListenersToEventManagers')      #todo make that possible to configure
         ;
-
     }
 
     /**

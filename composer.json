@@ -20,6 +20,7 @@
         "symfony-cmf/testing": "dev-master",
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
         "matthiasnoback/symfony-config-test": "0.*",
+        "doctrine/phpcr-bundle": "1.1.*",
         "doctrine/phpcr-odm": "dev-uuid-on-references as 1.1.0",
         "doctrine/orm": "2.4.*@dev",
         "phpcr/phpcr": "2.1.1",

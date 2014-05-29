@@ -3,9 +3,6 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="doctrine_orm_phpcr_adapter.event.phpcr.class">Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\PhpcrListener</parameter>
-        <parameter key="doctrine_orm_phpcr_adapter.event.orm.class">Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\OrmListener</parameter>
-
         <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.driver_chain.class">Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain</parameter>
         <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.annotation.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\AnnotationDriver</parameter>
         <parameter key="doctrine_orm_phpcr_adapter.adapter.metadata.xml.class">Doctrine\ORM\ODMAdapter\Mapping\Driver\XmlDriver</parameter>
@@ -35,14 +32,6 @@
             <argument type="collection" />
         </service>
 
-        <service id="doctrine_orm_phpcr_adapter.event.phpcr" class="%doctrine_orm_phpcr_adapter.event.phpcr.class%">
-            <argument id="service_container" type="service" />
-            <tag name="doctrine_phpcr.event_subscriber" />
-        </service>
-        <service id="doctrine_orm_phpcr_adapter.event.orm" class="%doctrine_orm_phpcr_adapter.event.orm.class%">
-            <argument id="service_container" type="service" />
-            <tag name="doctrine.event_subscriber" />
-        </service>
         <service id="doctrine_orm_phpcr_adapter.configuration" class="%doctrine_orm_phpcr_adapter.configuration.class%" abstract="true" public="false" />
 
         <service id="doctrine_orm_phpcr_adapter.adapter.metadata.annotation_reader" alias="annotation_reader" public="false" />
