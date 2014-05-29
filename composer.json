@@ -13,20 +13,14 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "doctrine/common": "~2.4.0",
         "electricmaxxx/doctrine-orm-odm-adapter": "1.0.*@dev"
     },
     "require-dev": {
         "symfony-cmf/testing": "dev-master",
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
         "matthiasnoback/symfony-config-test": "0.*",
-        "doctrine/phpcr-bundle": "1.1.*",
-        "doctrine/phpcr-odm": "dev-uuid-on-references as 1.1.0",
-        "doctrine/orm": "2.4.*@dev",
-        "phpcr/phpcr": "2.1.1",
-        "phpcr/phpcr-implementation": "~2.1.0",
-        "phpcr/phpcr-utils": "~1.1.0",
-        "jackalope/jackalope-doctrine-dbal": "~1.0"
+
+        "doctrine/phpcr-odm": "dev-uuid-on-references as 1.1.0"
     },
     "suggest":{
         "symfony/yaml": "~2.0"
