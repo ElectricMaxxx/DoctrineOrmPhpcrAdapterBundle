@@ -26,12 +26,12 @@ class DoctrineOrmPhpAdapterMappingPass extends RegisterMappingsPass
      */
     public function __construct($driver, $namespaces, array $managerParameters, $enabledParameter = false)
     {
-        $managerParameters[] = 'doctrine_orm_phpcr_adapter.default_adapter_manager';
+        $managerParameters[] = 'doctrine_orm_phpcr_adapter.adapter.default_adapter_manager';
         parent::__construct(
             $driver,
             $namespaces,
             $managerParameters,
-            'doctrine_orm_phpcr_adapter.%s_metadata_driver',
+            'doctrine_orm_phpcr_adapter.adapter.%s_metadata_driver',
             $enabledParameter
         );
     }
