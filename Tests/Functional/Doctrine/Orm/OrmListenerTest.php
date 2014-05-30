@@ -23,6 +23,12 @@ class OrmListenerTest extends BaseTestCase
     {
         $this->db('PHPCR')->createTestNode();
         $this->base = $this->getDm()->find(null, '/test');
+        $this->createBaseTables();
+    }
+
+    public function tearDown()
+    {
+        $this->dropTables();
     }
     /**
      * @return EntityManager
@@ -60,5 +66,21 @@ class OrmListenerTest extends BaseTestCase
 
         $this->assertNotNull($entity);
 
+    }
+
+    private function createBaseTables()
+    {
+        $this->getEm()->getConnection()->executeUpdate(
+            'CREATE TABLE IF NOT EXISTS `objects` (
+                `id` varchar(255),
+                `commonField` varchar(255),
+                `uuid` varchar(255)
+            )'
+        );
+    }
+
+    protected function dropTables()
+    {
+        $this->getEm()->getConnection()->executeUpdate("DROP TABLE objects");
     }
 }
