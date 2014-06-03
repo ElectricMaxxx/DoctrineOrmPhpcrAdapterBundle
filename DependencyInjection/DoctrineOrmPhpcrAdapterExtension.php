@@ -181,7 +181,6 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
                 new Reference($abstractManagerServiceId),
                 new Reference($abstractEventManagerServiceId)
             ))
-            ->addMethodCall('addListenersToEventManagers')      #todo make that possible to configure
         ;
     }
 
