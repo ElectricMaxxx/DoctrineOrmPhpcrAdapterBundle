@@ -3,6 +3,7 @@
 namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Proxy\Proxy;
 use Doctrine\ORM\ODMAdapter\ObjectAdapterManager;
 use Symfony\Component\DependencyInjection\Container;
 
