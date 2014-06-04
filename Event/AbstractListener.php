@@ -6,6 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Proxy\Proxy;
 use Doctrine\ORM\ODMAdapter\ObjectAdapterManager;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractListener implements EventSubscriber
 {
@@ -41,6 +42,7 @@ abstract class AbstractListener implements EventSubscriber
     {
         return !$objectAdapterManager->hasValidMapping(get_class($object))
                 || $objectAdapterManager->isReferenced($object)
+                || $objectAdapterManager->isSleepingProxy($object)
                 ? false : true;
     }
 
