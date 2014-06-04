@@ -13,7 +13,6 @@ class OrmListener extends AbstractListener
         $objectAdapterManager = $this->container->get('doctrine_orm_phpcr_adapter.adapter.default_adapter_manager');
         $object = $event->getEntity();
         if ($this->isReferenceable($object, $objectAdapterManager)) {
-            #print("ORM persist\n");
             $objectAdapterManager->persistReference($object);
         }
 
@@ -28,11 +27,16 @@ class OrmListener extends AbstractListener
         }
     }
 
+    /**
+     * When a proxy comes it should be load again.
+     *
+     * @param LifecycleEventArgs $event
+     */
     public function postLoad(LifecycleEventArgs $event)
     {
         $objectAdapterManager = $this->container->get('doctrine_orm_phpcr_adapter.adapter.default_adapter_manager');
         $object = $event->getObject();
-        if ($this->isReferenceable($object, $objectAdapterManager)) {
+        if ($this->isReferenceable($object, $objectAdapterManager) && !$this->isProxy($object)) {
             $objectAdapterManager->findReference($object);
         }
     }

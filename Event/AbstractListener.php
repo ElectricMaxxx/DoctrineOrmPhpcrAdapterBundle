@@ -17,6 +17,7 @@ abstract class AbstractListener implements EventSubscriber
     {
         $this->container = $container;
     }
+
     /**
      * Returns an array of events this subscriber wants to listen to.
      *
@@ -40,5 +41,17 @@ abstract class AbstractListener implements EventSubscriber
         return !$objectAdapterManager->hasValidMapping(get_class($object))
                 || $objectAdapterManager->isReferenced($object)
                 ? false : true;
+    }
+
+    /**
+     * Detects if a chosen object is either an proxy or not.
+     * Proxies need special behavior in some situations.
+     *
+     * @param $object
+     * @return bool
+     */
+    protected function isProxy($object)
+    {
+        return $object instanceof Proxy;
     }
 }
