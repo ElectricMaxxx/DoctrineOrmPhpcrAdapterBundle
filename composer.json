@@ -20,6 +20,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
         "matthiasnoback/symfony-config-test": "0.*",
 
+        "doctrine/phpcr-bundle": "1.2.*@dev",
+        "doctrine/orm":"2.4.*",
         "doctrine/phpcr-odm": "dev-uuid-on-references as 1.1.0"
     },
     "suggest":{
