@@ -18,5 +18,16 @@ class DoctrineOrmPhpcrAdapterBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        if (class_exists('Doctrine\ODM\PHPCR\Version')) {
+            $container->addCompilerPass(
+                new RegisterEventListenersAndSubscribersPass(
+                    'doctrine_orm_phpcr_adapter.sessions',
+                    'doctrine_orm_phpcr_adapter.adapter.%s_event_manager',
+                    'doctrine_adapter'
+                ),
+                PassConfig::TYPE_BEFORE_OPTIMIZATION
+            );
+        }
     }
 }

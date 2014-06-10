@@ -21,6 +21,8 @@
         <parameter key="doctrine_orm_phpcr_adapter.configuration.class">Doctrine\ORM\ODMAdapter\Configuration</parameter>
 
         <parameter key="doctrine_orm_phpcr_adapter.adapter.event_manager.class">Symfony\Bridge\Doctrine\ContainerAwareEventManager</parameter>
+
+        <parameter key="doctrine_orm_phpcr_adapter.sessions" type="collection" />
     </parameters>
 
     <services>

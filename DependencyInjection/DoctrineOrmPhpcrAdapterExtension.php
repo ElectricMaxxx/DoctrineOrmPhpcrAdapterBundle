@@ -62,10 +62,25 @@ class DoctrineOrmPhpcrAdapterExtension extends AbstractDoctrineExtension
      */
     public function loadReferencedManagers(array $config, ContainerBuilder $container)
     {
-        // the configuration setting will prevent us from using wrong type
+        $sessions = array();
         foreach ($config as $manager) {
                 $this->referenceManagers[$manager['type']][$manager['name']] = new Reference($manager['service']);
+
+            // session for each manager connection
+            if (!isset($sessions[$manager['name']])) {
+                $sessions[$manager['name']] = sprintf('doctrine_orm_phpcr_adapter.%s_session', $manager['name']);
+            }
         }
+
+        $container->setParameter('doctrine_orm_phpcr_adapter.sessions', $sessions);
+
+        // no sessions configured
+        if (empty($config['default_session'])) {
+            return;
+        }
+
+        $container->setParameter('doctrine_orm_phpcr_adapter.default_session', $config['default_session']);
+        $container->setAlias('doctrine_orm_phpcr_adapter.session', $sessions[$config['default_session']]);
     }
 
     public function getAlias()
