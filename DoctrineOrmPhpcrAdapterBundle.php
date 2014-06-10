@@ -24,7 +24,7 @@ class DoctrineOrmPhpcrAdapterBundle extends Bundle
                 new RegisterEventListenersAndSubscribersPass(
                     'doctrine_orm_phpcr_adapter.sessions',
                     'doctrine_orm_phpcr_adapter.adapter.%s_event_manager',
-                    'doctrine_adapter'
+                    'doctrine_orm_phpcr_adapter'
                 ),
                 PassConfig::TYPE_BEFORE_OPTIMIZATION
             );
