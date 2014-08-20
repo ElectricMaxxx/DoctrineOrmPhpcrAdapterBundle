@@ -4,6 +4,7 @@ namespace Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\Persistence\Event\ManagerEventArgs;
+use Doctrine\Common\Persistence\Event\OnClearEventArgs;
 
 class PhpcrListener extends AbstractListener
 {
@@ -44,7 +45,7 @@ class PhpcrListener extends AbstractListener
         }
     }
 
-    public function onClear(ManagerEventArgs $event)
+    public function onClear(OnClearEventArgs $event)
     {
         $objectAdapterManager = $this->container->get('doctrine_orm_phpcr_adapter.adapter.default_adapter_manager');
         $objectAdapterManager->clear();
