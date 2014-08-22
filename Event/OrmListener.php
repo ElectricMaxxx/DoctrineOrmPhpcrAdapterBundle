@@ -36,7 +36,7 @@ class OrmListener extends AbstractListener
     {
         $objectAdapterManager = $this->container->get('doctrine_orm_phpcr_adapter.adapter.default_adapter_manager');
         $object = $event->getObject();
-        if ($this->isReferenceable($object, $objectAdapterManager) && !$this->isProxy($object)) {
+        if ($this->isReferenceable($object, $objectAdapterManager)) {
             $objectAdapterManager->findReference($object);
         }
     }
