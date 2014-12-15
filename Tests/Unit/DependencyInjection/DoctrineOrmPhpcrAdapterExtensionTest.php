@@ -78,5 +78,10 @@ class DoctrineOrmPhpcrAdapterExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('doctrine_orm_phpcr_adapter.sessions', array(
             'default' => 'doctrine_orm_phpcr_adapter.default_session',
         ));
+
+        $this->assertContainerBuilderHasService('doctrine_orm_phpcr_adapter.event.phpcr', 'Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\PhpcrListener');
+        $this->assertContainerBuilderHasService('doctrine_orm_phpcr_adapter.event.orm', 'Doctrine\ORM\Bundle\DoctrineOrmPhpcrAdapterBundle\Event\OrmListener');
+        $this->assertContainerBuilderHasServiceDefinitionWithTag('doctrine_orm_phpcr_adapter.event.phpcr', 'doctrine_phpcr.event_subscriber');
+        $this->assertContainerBuilderHasServiceDefinitionWithTag('doctrine_orm_phpcr_adapter.event.orm', 'doctrine.event_subscriber');
     }
 }

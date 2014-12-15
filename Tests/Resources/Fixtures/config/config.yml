@@ -1,0 +1,16 @@
+doctrine_orm_phpcr_adapter:
+    managers:
+        reference-phpcr:
+            default: doctrine_phpcr.odm.default_document_manager
+        reference-dbal-orm:
+            default: doctrine.orm.default_entity_manager
+    adapter:
+        mapping: true
+        auto_generate_proxy_classes: true
+        mappings:
+            test_mapping:
+                type: annotation
+                dir: %kernel.root_dir%/../Entity
+                prefix: \Entity
+                is_bundle: true
+

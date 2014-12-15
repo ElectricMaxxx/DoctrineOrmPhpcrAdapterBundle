@@ -16,6 +16,7 @@
         "electricmaxxx/doctrine-orm-odm-adapter": "1.0.*@dev"
     },
     "require-dev": {
+        "symfony/symfony":"2.5.*",
         "symfony-cmf/testing": "dev-master",
         "matthiasnoback/symfony-dependency-injection-test": "0.*",
         "matthiasnoback/symfony-config-test": "0.*",
